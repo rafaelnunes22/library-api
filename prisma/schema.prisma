@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Use "?" for optional fields. Ex: name  String?
+
+model User {
+  id         String @id @default(uuid())
+  username   String
+  password   String
+  avatar_url String
+
+  book Book[]
+}
+
+model Book {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  image_url    String
+  release_date DateTime
+  is_rented    Boolean
+  user         User?    @relation(fields: [user_id], references: [id])
+
+  user_id String?
+}
